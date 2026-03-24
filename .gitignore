@@ -1,3 +1,22 @@
+# Environment variables — NEVER commit these
+.env
+.env.local
+.env.production
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
 # Logs
 logs
 *.log
@@ -22,3 +41,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+/generated/prisma

@@ -1,0 +1,139 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PreferredLanguage {
+  en
+  sw
+}
+
+enum TaxType {
+  income_tax
+  turnover_tax
+}
+
+enum FilingStatus {
+  draft
+  completed
+  submitted
+}
+
+enum IncomeSourceType {
+  freelance
+  employment
+  rental
+  other
+}
+
+enum ExpenseCategory {
+  home_office
+  equipment
+  internet
+  transport
+  software
+  professional
+  other
+}
+
+enum ReminderType {
+  sms
+  email
+}
+
+enum ReminderStatus {
+  pending
+  sent
+  failed
+}
+
+model User {
+  id                 String              @id @default(uuid()) @db.Uuid
+  email              String              @unique @db.VarChar(255)
+  passwordHash       String              @map("password_hash") @db.VarChar(255)
+  fullName           String              @map("full_name") @db.VarChar(255)
+  phone              String?             @db.VarChar(20)
+  kraPin             String?             @map("kra_pin") @db.VarChar(20)
+  preferredLanguage  PreferredLanguage   @default(en) @map("preferred_language")
+  createdAt          DateTime            @default(now()) @map("created_at")
+
+  taxFilings         TaxFiling[]
+  reminders          Reminder[]
+
+  @@map("users")
+}
+
+model TaxFiling {
+  id                String          @id @default(uuid()) @db.Uuid
+  userId            String          @map("user_id") @db.Uuid
+  taxYear           Int             @map("tax_year")
+  taxType           TaxType         @map("tax_type")
+  status            FilingStatus    @default(draft)
+  totalIncome       Decimal         @default(0) @map("total_income") @db.Decimal(15, 2)
+  totalDeductions   Decimal         @default(0) @map("total_deductions") @db.Decimal(15, 2)
+  taxableIncome     Decimal         @default(0) @map("taxable_income") @db.Decimal(15, 2)
+  taxCalculated     Decimal         @default(0) @map("tax_calculated") @db.Decimal(15, 2)
+  whtCredits        Decimal         @default(0) @map("wht_credits") @db.Decimal(15, 2)
+  netTaxPayable     Decimal         @default(0) @map("net_tax_payable") @db.Decimal(15, 2)
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @updatedAt @map("updated_at")
+
+  user              User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  incomeEntries     IncomeEntry[]
+  expenses          Expense[]
+
+  @@index([userId])
+  @@map("tax_filings")
+}
+
+model IncomeEntry {
+  id             String            @id @default(uuid()) @db.Uuid
+  filingId       String            @map("filing_id") @db.Uuid
+  sourceType     IncomeSourceType  @map("source_type")
+  clientName     String?           @map("client_name") @db.VarChar(255)
+  amount         Decimal           @db.Decimal(15, 2)
+  currency       String            @default("KES") @db.VarChar(3)
+  dateReceived   DateTime          @map("date_received") @db.Date
+  whtDeducted    Decimal           @default(0) @map("wht_deducted") @db.Decimal(15, 2)
+  notes          String?           @db.Text
+
+  filing         TaxFiling         @relation(fields: [filingId], references: [id], onDelete: Cascade)
+
+  @@index([filingId])
+  @@map("income_entries")
+}
+
+model Expense {
+  id            String           @id @default(uuid()) @db.Uuid
+  filingId      String           @map("filing_id") @db.Uuid
+  category      ExpenseCategory
+  description   String           @db.VarChar(255)
+  amount        Decimal          @db.Decimal(15, 2)
+  dateIncurred  DateTime         @map("date_incurred") @db.Date
+  receiptUrl    String?          @map("receipt_url") @db.VarChar(500)
+  isAllowable   Boolean          @default(true) @map("is_allowable")
+
+  filing        TaxFiling        @relation(fields: [filingId], references: [id], onDelete: Cascade)
+
+  @@index([filingId])
+  @@map("expenses")
+}
+
+model Reminder {
+  id           String          @id @default(uuid()) @db.Uuid
+  userId       String          @map("user_id") @db.Uuid
+  type         ReminderType
+  triggerDate  DateTime        @map("trigger_date") @db.Date
+  message      String          @db.Text
+  sentAt       DateTime?       @map("sent_at")
+  status       ReminderStatus  @default(pending)
+
+  user         User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("reminders")
+}

@@ -1,0 +1,134 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ── Users ──────────────────────────────────────────────────────
+model User {
+  id                String       @id @default(uuid())
+  email             String       @unique
+  passwordHash      String
+  fullName          String
+  phone             String?
+  kraPin            String?
+  preferredLanguage String       @default("en")
+  plan              String       @default("free")
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+
+  filings           TaxFiling[]
+  reminders         Reminder[]
+}
+
+// ── Tax Filings ────────────────────────────────────────────────
+model TaxFiling {
+  id               String    @id @default(uuid())
+  userId           String
+  taxYear          Int
+  taxType          TaxType   @default(income_tax)
+  status           FilingStatus @default(draft)
+
+  totalIncome      Decimal   @default(0) @db.Decimal(15, 2)
+  totalDeductions  Decimal   @default(0) @db.Decimal(15, 2)
+  taxableIncome    Decimal   @default(0) @db.Decimal(15, 2)
+  taxCalculated    Decimal   @default(0) @db.Decimal(15, 2)
+  whtCredits       Decimal   @default(0) @db.Decimal(15, 2)
+  netTaxPayable    Decimal   @default(0) @db.Decimal(15, 2)
+
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  user             User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  incomeEntries    IncomeEntry[]
+  expenses         Expense[]
+}
+
+// ── Income Entries ─────────────────────────────────────────────
+model IncomeEntry {
+  id           String      @id @default(uuid())
+  filingId     String
+  sourceType   SourceType
+  clientName   String?
+  amount       Decimal     @db.Decimal(15, 2)
+  currency     String      @default("KES")
+  dateReceived DateTime
+  whtDeducted  Decimal     @default(0) @db.Decimal(15, 2)
+  notes        String?
+  createdAt    DateTime    @default(now())
+
+  filing       TaxFiling   @relation(fields: [filingId], references: [id], onDelete: Cascade)
+}
+
+// ── Expenses ───────────────────────────────────────────────────
+model Expense {
+  id            String          @id @default(uuid())
+  filingId      String
+  category      ExpenseCategory
+  description   String
+  amount        Decimal         @db.Decimal(15, 2)
+  dateIncurred  DateTime
+  receiptUrl    String?
+  isAllowable   Boolean         @default(true)
+  createdAt     DateTime        @default(now())
+
+  filing        TaxFiling       @relation(fields: [filingId], references: [id], onDelete: Cascade)
+}
+
+// ── Reminders ──────────────────────────────────────────────────
+model Reminder {
+  id          String         @id @default(uuid())
+  userId      String
+  type        ReminderType
+  triggerDate DateTime
+  message     String
+  sentAt      DateTime?
+  status      ReminderStatus @default(pending)
+  createdAt   DateTime       @default(now())
+
+  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ── Enums ──────────────────────────────────────────────────────
+enum TaxType {
+  income_tax
+  turnover_tax
+}
+
+enum FilingStatus {
+  draft
+  completed
+  submitted
+}
+
+enum SourceType {
+  freelance
+  employment
+  rental
+  business
+  other
+}
+
+enum ExpenseCategory {
+  home_office
+  equipment
+  internet
+  transport
+  software
+  professional
+  other
+}
+
+enum ReminderType {
+  sms
+  email
+}
+
+enum ReminderStatus {
+  pending
+  sent
+  failed
+}

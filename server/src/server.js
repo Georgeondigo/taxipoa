@@ -5,6 +5,9 @@ const dotenv = require('dotenv');
 // load environment variables 
 dotenv.config();
 
+// Import routes
+const authRoutes = require('./routes/auth');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -16,6 +19,10 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true
 }));
+
+// Routes --------------------------------------------
+app.use('/api/auth', authRoutes);
+
 
 // Health check endpoint -------------------------------
 app.get('/health', (req, res) => {

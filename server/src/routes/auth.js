@@ -5,8 +5,10 @@ const { body, validationResult } = require("express-validator");
 const prisma = require("../prisma");
 const authMiddleware = require("../middleware/authMiddleware");
 const e = require("express");
-
+const { OAuth2Client } = require('google-auth-library');
 const router = express.Router();
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
 
 // ── Helper: generate JWT ─────────────────────────────────────────────────────
 function generateToken(userId) {
@@ -207,6 +209,69 @@ router.patch('/me', authMiddleware, [
             message: 'An error occurred while updating your profile. Please try again.',
         });
     }
+});
+
+// ── POST /api/auth/google ──────────────────────────────────────
+router.post('/google', async (req, res) => {
+  try {
+    const { credential } = req.body;
+
+    if (!credential) {
+      return res.status(400).json({
+        success: false,
+        message: 'Google credential is required.'
+      });
+    }
+
+    // Verify the Google token
+    const ticket = await googleClient.verifyIdToken({
+      idToken: credential,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+
+    const payload = ticket.getPayload();
+    const { email, name, picture, sub: googleId } = payload;
+
+    // Check if user already exists
+    let user = await prisma.user.findUnique({
+      where: { email: email.toLowerCase() }
+    });
+
+    if (user) {
+      // Existing user — just log them in
+      const token = generateToken(user.id);
+      return res.json({
+        success: true,
+        message: `Welcome back, ${user.fullName}!`,
+        data: { token, user: fomatUser(user) }
+      });
+    }
+
+    // New user — create account automatically
+    user = await prisma.user.create({
+      data: {
+        email: email.toLowerCase(),
+        fullName: name,
+        passwordHash: '', // Google users have no password
+        phone: null,
+      }
+    });
+
+    const token = generateToken(user.id);
+
+    res.status(201).json({
+      success: true,
+      message: `Welcome to TaxiPoa, ${user.fullName}!`,
+      data: { token, user: fomatUser(user) }
+    });
+
+  } catch (error) {
+    console.error('Google auth error:', error);
+    res.status(401).json({
+      success: false,
+      message: 'Google sign-in failed. Please try again.'
+    });
+  }
 });
 
 module.exports = router;

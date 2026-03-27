@@ -12,6 +12,7 @@ import {
   Settings,
   User,
   Lightbulb,
+  CircleCheck,
 } from "lucide-react";
 
 export default function Dashboard() {
@@ -104,7 +105,7 @@ export default function Dashboard() {
           {
             label: "Completed",
             value: filings.filter((f) => f.status === "completed").length,
-            icon: <CheckCircle className="w-5 h-5" />,
+            icon: <CircleCheck className="w-5 h-5" />,
             color: "bg-green-50 text-green-700",
           },
           {

@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import Filings from "./pages/Filings";
 import NewFiling from "./pages/NewFiling";
 import FilingDetail from "./pages/FilingDetail";
+import Settings from "./pages/Settings";
 
 function App() {
   return (
@@ -67,11 +68,7 @@ function App() {
             element={
               <ProtectedRoute>
                 <Layout>
-                  <div className="flex items-center justify-center h-64">
-                    <p className="text-slate-400 font-body">
-                      Settings — coming in Step 14
-                    </p>
-                  </div>
+                  <Settings />
                 </Layout>
               </ProtectedRoute>
             }

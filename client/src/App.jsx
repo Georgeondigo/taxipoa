@@ -2,52 +2,80 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import { AuthProvider } from './context/AuthContext'
 import ProtectedRoute from './components/ProtectedRoute'
+import Layout from './components/Layout'
 import Login from './pages/Login'
 import Register from './pages/Register'
-
-// Placeholder pages (we build these next)
-function Dashboard() {
-  return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-      <div className="text-center">
-        <h1 className="font-display text-3xl font-bold text-slate-800 mb-2">Dashboard</h1>
-        <p className="text-slate-500 font-body">Coming in Step 10 ✅</p>
-      </div>
-    </div>
-  )
-}
+import Dashboard from './pages/Dashboard'
 
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <Toaster
-          position="top-right"
-          toastOptions={{
-            duration: 4000,
-            style: {
-              fontFamily: 'DM Sans, sans-serif',
-              fontSize: '14px',
-              borderRadius: '12px',
-              boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
-            },
-            success: {
-              iconTheme: { primary: '#1E8449', secondary: '#fff' },
-            },
-            error: {
-              iconTheme: { primary: '#C0392B', secondary: '#fff' },
-            },
-          }}
-        />
+        <Toaster position="top-right" />
         <Routes>
+          {/* Public routes */}
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+
+          {/* Protected routes — all wrapped in Layout */}
           <Route
             path="/dashboard"
             element={
               <ProtectedRoute>
-                <Dashboard />
+                <Layout>
+                  <Dashboard />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Placeholder routes — we build these next steps */}
+          <Route
+            path="/filings"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <div className="flex items-center justify-center h-64">
+                    <p className="text-slate-400 font-body">Filings page — coming in Step 11</p>
+                  </div>
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/filings/new"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <div className="flex items-center justify-center h-64">
+                    <p className="text-slate-400 font-body">New Filing wizard — coming in Step 11</p>
+                  </div>
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/filings/:id"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <div className="flex items-center justify-center h-64">
+                    <p className="text-slate-400 font-body">Filing detail — coming in Step 12</p>
+                  </div>
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <div className="flex items-center justify-center h-64">
+                    <p className="text-slate-400 font-body">Settings — coming in Step 14</p>
+                  </div>
+                </Layout>
               </ProtectedRoute>
             }
           />

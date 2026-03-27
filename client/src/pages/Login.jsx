@@ -118,7 +118,7 @@ export default function Login() {
         {/* Bottom note */}
         <div className="relative z-10">
           <p className="text-blue-200/70 text-xs font-body">
-            🇰🇪 Made for Kenya · KRA iTax compatible · Secure & private
+            🇰🇪 Made for Kenya  · Secure & private
           </p>
         </div>
       </div>
@@ -281,7 +281,7 @@ export default function Login() {
                 shape="pill"
                 size="large"
                 text="signin_with_google"
-                width="400"
+                width="100%"
               />
             </div>
           </div>
@@ -305,7 +305,7 @@ export default function Login() {
 
           {/* Footer */}
           <p className="text-center text-slate-400 text-xs font-body mt-8">
-            🔒 Your data is encrypted and never shared
+             Your data is encrypted and never shared
           </p>
         </div>
       </div>

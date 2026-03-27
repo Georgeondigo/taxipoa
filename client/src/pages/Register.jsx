@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import toast from "react-hot-toast";
 import { GoogleLogin } from "@react-oauth/google";
+import { Calculator, Clock3, FileText } from "lucide-react";
 
 export default function Register() {
   const [form, setForm] = useState({
@@ -109,17 +110,17 @@ export default function Register() {
           <div className="space-y-4">
             {[
               {
-                icon: "🧮",
+                icon: <Calculator className="w-5 h-5 text-[#1A5276]" />,
                 title: "Smart tax calculation",
                 desc: "Income Tax vs TOT — we pick the cheaper one",
               },
               {
-                icon: "📄",
+                icon: <FileText className="w-5 h-5 text-[#1A5276]" />,
                 title: "Ready-to-use PDF",
                 desc: "Summary report to reference while filing on iTax",
               },
               {
-                icon: "⏰",
+                icon: <Clock3 className="w-5 h-5 text-[#1A5276]" />,
                 title: "Deadline reminders",
                 desc: "SMS alerts before June 30 so you never miss it",
               },
@@ -143,7 +144,7 @@ export default function Register() {
 
         <div className="relative z-10">
           <p className="text-blue-200/70 text-xs font-body">
-            🇰🇪 Made for Kenya · KRA iTax compatible · Free to start
+            🇰🇪 Made for Kenya · Free to start
           </p>
         </div>
       </div>
@@ -335,7 +336,7 @@ export default function Register() {
               )}
             </button>
           </form>
-          
+
           {/* Google Sign Up */}
           <div className="mt-2">
             <div className="flex items-center gap-4 mb-4">
@@ -354,7 +355,7 @@ export default function Register() {
                 shape="pill"
                 size="large"
                 text="signup_with_google"
-                width="400"
+                width="100%"
               />
             </div>
           </div>
@@ -375,7 +376,7 @@ export default function Register() {
           </Link>
 
           <p className="text-center text-slate-400 text-xs font-body mt-8">
-            🔒 Your data is encrypted and never shared
+            Your data is encrypted and never shared
           </p>
         </div>
       </div>

@@ -10,6 +10,7 @@ import Filings from "./pages/Filings";
 import NewFiling from "./pages/NewFiling";
 import FilingDetail from "./pages/FilingDetail";
 import Settings from "./pages/Settings";
+import Landing from './pages/Landing'
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
       <AuthProvider>
         <Toaster position="top-right" />
         <Routes>
-          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 

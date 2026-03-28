@@ -90,17 +90,17 @@ export default function Login() {
             <br />
             <span className="text-blue-200">without the confusion.</span>
           </h1>
-          <p className="text-blue-100 text-lg font-body leading-relaxed mb-10">
+          <p className="text-blue-100 font-body text-lg leading-relaxed mb-10">
             Built for Kenyan freelancers, gig workers, and small business
-            owners. Calculate what you owe, track your deductions, and file with
-            confidence.
+            owners. Calculate what you owe, understand your deductions, and get
+            a ready-to-use summary before you file on iTax.
           </p>
 
           {/* Stats */}
           <div className="grid grid-cols-3 gap-6">
             {[
-              { value: "KES 0", label: "Penalties avoided" },
-              { value: "52", label: "Build steps" },
+              { value: "KES 0", label: "In penalties" },
+              { value: "2 mins", label: "To calculate" },
               { value: "June 30", label: "Filing deadline" },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
@@ -118,7 +118,7 @@ export default function Login() {
         {/* Bottom note */}
         <div className="relative z-10">
           <p className="text-blue-200/70 text-xs font-body">
-            🇰🇪 Made for Kenya  · Secure & private
+            🇰🇪 Made for Kenya · Secure & private
           </p>
         </div>
       </div>
@@ -305,7 +305,7 @@ export default function Login() {
 
           {/* Footer */}
           <p className="text-center text-slate-400 text-xs font-body mt-8">
-             Your data is encrypted and never shared
+            Your data is encrypted and never shared
           </p>
         </div>
       </div>

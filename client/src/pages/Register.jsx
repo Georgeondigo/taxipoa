@@ -3,7 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import toast from "react-hot-toast";
 import { GoogleLogin } from "@react-oauth/google";
-import { Calculator, Clock3, FileText } from "lucide-react";
+import {
+  Calculator,
+  ClipboardList,
+  Clock,
+  Clock3,
+  FileText,
+} from "lucide-react";
 
 export default function Register() {
   const [form, setForm] = useState({
@@ -101,32 +107,32 @@ export default function Register() {
 
         <div className="relative z-10">
           <h1 className="font-display text-white text-4xl font-bold leading-tight mb-6">
-            Stop paying KRA
+            Stop guessing what
             <br />
-            <span className="text-blue-200">penalties.</span>
+            <span className="text-blue-200">to pay KRA.</span>
           </h1>
 
           {/* Benefits list */}
           <div className="space-y-4">
             {[
               {
-                icon: <Calculator className="w-5 h-5 text-[#1A5276]" />,
-                title: "Smart tax calculation",
-                desc: "Income Tax vs TOT — we pick the cheaper one",
+                icon: <Calculator className="w-5 h-5 text-white" />,
+                title: "Calculate your tax liability",
+                desc: "We compare Income Tax vs TOT and show you the cheaper option",
               },
               {
-                icon: <FileText className="w-5 h-5 text-[#1A5276]" />,
-                title: "Ready-to-use PDF",
-                desc: "Summary report to reference while filing on iTax",
+                icon: <ClipboardList className="w-5 h-5 text-white" />,
+                title: "Know exactly what to fill",
+                desc: "Get a clear summary of every figure to enter on iTax",
               },
               {
-                icon: <Clock3 className="w-5 h-5 text-[#1A5276]" />,
-                title: "Deadline reminders",
-                desc: "SMS alerts before June 30 so you never miss it",
+                icon: <Clock className="w-5 h-5 text-white" />,
+                title: "Never miss the deadline",
+                desc: "SMS alerts before June 30 so you are always prepared",
               },
             ].map((benefit) => (
               <div key={benefit.title} className="flex items-start gap-4">
-                <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0 text-lg">
+                <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0">
                   {benefit.icon}
                 </div>
                 <div>

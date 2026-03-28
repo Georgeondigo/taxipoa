@@ -10,6 +10,10 @@ const authRoutes = require('./routes/auth');
 const filingsRoutes = require('./routes/filings');
 const incomeRoutes = require('./routes/income');
 const expensesRoutes = require('./routes/expenses');
+const remindersRoutes = require('./routes/reminders');
+
+// Import scheduler
+const { startReminderScheduler } = require('./services/reminderScheduler');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -28,6 +32,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/filings', filingsRoutes);
 app.use('/api/income', incomeRoutes);
 app.use('/api/expenses', expensesRoutes);
+app.use('/api/reminders', remindersRoutes);
 
 
 // Health check endpoint -------------------------------

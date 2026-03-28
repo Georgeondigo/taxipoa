@@ -52,30 +52,30 @@ export default function Dashboard() {
         <div className="relative z-10">
           <p className="text-blue-200 text-sm font-body mb-1">Welcome back,</p>
           <h2 className="font-display text-2xl font-bold mb-4">
-            {user?.fullName?.split(" ")[0]} 
+            {user?.fullName?.split(" ")[0]}
           </h2>
 
           {!hasCurrentYearFiling ? (
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
               <div>
                 <p className="text-blue-100 font-body text-sm mb-1">
-                  You haven't filed your {currentYear - 1} tax return yet.
+                  You haven't prepared your {currentYear - 1} tax return yet.
                 </p>
                 <p className="text-blue-200/70 text-xs font-body">
-                  Deadline: 30 June {currentYear} ·{" "}
-                  {daysLeft > 0 ? `${daysLeft} days left` : "Overdue"}
+                  Calculate your liability and get your iTax reference summary
+                  before June 30.
                 </p>
               </div>
               <button
                 onClick={() => navigate("/filings/new")}
                 className="flex-shrink-0 bg-white text-[#1A5276] font-display font-semibold text-sm px-5 py-2.5 rounded-xl hover:bg-blue-50 transition-all duration-200 shadow-lg cursor-pointer"
               >
-                Start filing now →
+                Prepare my return →
               </button>
             </div>
           ) : (
             <p className="text-blue-100 font-body text-sm">
-             Your {currentYear - 1} return is in progress. Keep going!
+              Your {currentYear - 1} tax preparation is in progress. Keep going!
             </p>
           )}
         </div>
@@ -87,19 +87,21 @@ export default function Dashboard() {
           {
             label: "Total Filings",
             value: filings.length,
-            icon:             <svg
-              className="w-5 h-5 text-[#1A5276]"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-              />
-            </svg>,
+            icon: (
+              <svg
+                className="w-5 h-5 text-[#1A5276]"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                />
+              </svg>
+            ),
             color: "bg-blue-50 text-blue-700",
           },
           {
@@ -290,15 +292,21 @@ export default function Dashboard() {
       {/* ── KRA Tips ── */}
       <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5">
         <div className="flex gap-4">
-          <div className="text-2xl flex-shrink-0"><Lightbulb className="w-5 h-5 text-amber-600" /></div>
+          <div className="text-2xl flex-shrink-0">
+            <Lightbulb className="w-5 h-5 text-amber-600" />
+          </div>
           <div>
             <h4 className="font-display font-semibold text-amber-900 text-sm mb-1">
               KRA Filing Tip
             </h4>
             <p className="text-amber-800 text-sm font-body">
-              Always keep receipts for work-related expenses. Even M-Pesa
-              transaction messages count as proof. The more expenses you log,
-              the lower your taxable income — and the less you pay.
+              Keep receipts for work-related expenses such as laptop costs,
+              internet, transport, and software subscriptions. Recording your
+              income and potentially allowable expenses in TaxiPoa helps
+              generate a clearer tax estimate and filing summary. Before
+              submitting, review the details carefully and use the summary as a
+              guide when filing directly on{" "}
+              <span className="font-semibold">itax.kra.go.ke</span>.
             </p>
           </div>
         </div>

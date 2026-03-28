@@ -532,25 +532,25 @@ export default function FilingDetail() {
                   {[
                     {
                       step: 1,
-                      label: "Add all your income",
+                      label: "Add all income you received",
                       done: (filing.incomeEntries?.length || 0) > 0,
                       tab: "income",
                     },
                     {
                       step: 2,
-                      label: "Add deductible expenses",
+                      label: "Add your deductible expenses",
                       done: (filing.expenses?.length || 0) > 0,
                       tab: "expenses",
                     },
                     {
                       step: 3,
-                      label: "Calculate your tax",
+                      label: "Calculate your best tax option",
                       done: !!calculation,
                       tab: null,
                     },
                     {
                       step: 4,
-                      label: "Download PDF summary",
+                      label: "Download your iTax reference summary",
                       done: false,
                       tab: null,
                     },
@@ -1012,15 +1012,15 @@ export default function FilingDetail() {
                   {/* How to pay */}
                   <div className="bg-slate-50 rounded-xl p-5">
                     <h4 className="font-display font-semibold text-slate-700 text-sm mb-3">
-                      How to pay your tax
+                      How to file using this summary
                     </h4>
                     <div className="space-y-2">
                       {[
-                        "Log in to itax.kra.go.ke with your KRA PIN",
-                        "Go to Returns → File Return → Individual Income Tax",
-                        "Enter the figures from this summary",
-                        "Submit and get your Payment Registration Number (PRN)",
-                        "Pay via M-Pesa: Paybill 222222, Account = your PRN",
+                        "Log in to itax.kra.go.ke using your KRA PIN and password",
+                        "Go to Returns → File Return → Individual Income Tax Return",
+                        "Use the figures from your TaxiPoa summary to fill in each field",
+                        "Submit your return and note your Payment Registration Number (PRN)",
+                        "Pay via M-Pesa: Paybill 222222, Account = your PRN number",
                       ].map((step, i) => (
                         <div key={i} className="flex items-start gap-3">
                           <div className="w-5 h-5 bg-[#1A5276] text-white rounded-full flex items-center justify-center text-xs font-display font-bold flex-shrink-0 mt-0.5">
@@ -1040,8 +1040,8 @@ export default function FilingDetail() {
                       >
                         <Download className="w-4 h-4" />
                         {downloading
-                          ? "Generating PDF..."
-                          : "Download Tax Summary PDF"}
+                          ? "Generating..."
+                          : "Download iTax Reference Summary (PDF)"}
                       </button>
                     </div>
                   </div>

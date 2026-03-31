@@ -281,7 +281,7 @@ export default function Login() {
                 shape="pill"
                 size="large"
                 text="signin_with_google"
-                width="100%"
+                width="380"
               />
             </div>
           </div>

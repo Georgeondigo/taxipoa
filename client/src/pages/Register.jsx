@@ -361,7 +361,7 @@ export default function Register() {
                 shape="pill"
                 size="large"
                 text="signup_with_google"
-                width="100%"
+                width="380"
               />
             </div>
           </div>

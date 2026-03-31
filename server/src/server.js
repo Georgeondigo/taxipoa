@@ -28,7 +28,8 @@ app.use(cors({
   ].filter(Boolean),
   credentials: true
 }));
-// Handle preflight requests
+
+// Handle preflight requests for CORS
 app.options('*', cors());
 
 app.use(express.json());

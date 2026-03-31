@@ -20,9 +20,14 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware -----------------------------------------
 app.use(cors({
-    origin: 'http://localhost:5173', // vite dev server port
-    credentials: true
+  origin: [
+    'http://localhost:5173',
+    'https://taxipoa.vercel.app',
+    process.env.CLIENT_URL,
+  ].filter(Boolean),
+  credentials: true
 }));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true
 }));
